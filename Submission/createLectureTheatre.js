@@ -80,7 +80,7 @@ var purple = [0.6, 0.3, 0.6];
 var brown = [0.8, 0.6, 0.43];
 var goldBrown = [0.66, 0.5, 0.2];
 var greyGreen = [0.23, 0.6, 0.4];
-var sky = [0.4, 0.8, 0.85];
+var sky = [0.4, 0.9, 0.95];
 
 //Lights
 var lightOn = true;
@@ -114,7 +114,7 @@ function main() {
   }
 
   // Set the clear canvas color and enable the depth test
-  gl.clearColor(sky[0], sky[1], sky[2], 1.0);
+  gl.clearColor(sky[0], sky[1], sky[2], 0.7);
   gl.enable(gl.DEPTH_TEST);
 
   // Get the storage locations of uniform variables
@@ -217,6 +217,63 @@ window.requestAnimFrame = (function(){
           };
 })();
 
+/*========================= Camera Handling ========================= */
+
+var lookSpeed = 1;
+//Camera functionality
+var camera_pos = [-160.0, 20.0, -75.0];
+//var camera_pos = [100,30,-90];
+var look_at = [0.0, 0.0, 0.0];
+
+//Pointer lock methods
+canvas.requestPointerLock = canvas.requestPointerLock ||
+           canvas.mozRequestPointerLock ||
+           canvas.webkitRequestPointerLock;
+document.exitPointerLock = document.exitPointerLock ||
+         document.mozExitPointerLock ||
+         document.webkitExitPointerLock;
+//document.exitPointerLock();
+//Start pointer lock
+canvas.onclick = function() {
+  canvas.requestPointerLock();
+}
+// pointer c event listeners
+// Hook pointer lock state change events for different browsers
+document.addEventListener('pointerlockchange', lockChangeAlert, false);
+document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
+document.addEventListener('webkitpointerlockchange', lockChangeAlert, false);
+//Toggle mouse pointer lock
+function lockChangeAlert() {
+  if(document.pointerLockElement === canvas ||
+  document.mozPointerLockElement === canvas ||
+  document.webkitPointerLockElement === canvas) {
+    console.log('The pointer lock status is now locked');
+    document.addEventListener("mousemove", changeCameraView, false);
+  } else {
+    console.log('The pointer lock status is now unlocked');  
+    document.removeEventListener("mousemove", changeCameraView, false);
+  }
+}
+//Changes camera view based on mouse position changes
+function changeCameraView(e) {
+  var movementX = e.movementX ||
+      e.mozMovementX          ||
+      e.webkitMovementX       ||
+      0;
+  var movementY = e.movementY ||
+      e.mozMovementY      ||
+      e.webkitMovementY   ||
+      0;
+  theta += movementX * lookSpeed * 0.005;
+  phi += movementY * lookSpeed * 0.005;
+}
+//Unpdates the camera's position + orientation
+function update_look_at() {
+  look_at = [Math.cos(theta)*Math.sin(phi), Math.cos(phi), Math.sin(theta)*Math.sin(phi)];
+}
+
+/*========================= Key Handling ========================= */
+
 //Movement vars
 var moveSpeed = 3;
 
@@ -282,77 +339,7 @@ function keydown(ev, gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMat
   }
 }
 
-//Camera functionality
-var camera_pos = [-160.0, 20.0, -75.0];
-//var camera_pos = [100,30,-90];
-var look_at = [0.0, 0.0, 0.0];
-var lookSpeed = 1;
-
-//Pointer lock methods
-canvas.requestPointerLock = canvas.requestPointerLock ||
-           canvas.mozRequestPointerLock ||
-           canvas.webkitRequestPointerLock;
-document.exitPointerLock = document.exitPointerLock ||
-         document.mozExitPointerLock ||
-         document.webkitExitPointerLock;
-//document.exitPointerLock();
-//Start pointer lock
-canvas.onclick = function() {
-  canvas.requestPointerLock();
-}
-// pointer c event listeners
-// Hook pointer lock state change events for different browsers
-document.addEventListener('pointerlockchange', lockChangeAlert, false);
-document.addEventListener('mozpointerlockchange', lockChangeAlert, false);
-document.addEventListener('webkitpointerlockchange', lockChangeAlert, false);
-//Toggle mouse pointer lock
-function lockChangeAlert() {
-  if(document.pointerLockElement === canvas ||
-  document.mozPointerLockElement === canvas ||
-  document.webkitPointerLockElement === canvas) {
-    console.log('The pointer lock status is now locked');
-    document.addEventListener("mousemove", changeCameraView, false);
-  } else {
-    console.log('The pointer lock status is now unlocked');  
-    document.removeEventListener("mousemove", changeCameraView, false);
-  }
-}
-//Changes camera view based on mouse position changes
-function changeCameraView(e) {
-  var movementX = e.movementX ||
-      e.mozMovementX          ||
-      e.webkitMovementX       ||
-      0;
-  var movementY = e.movementY ||
-      e.mozMovementY      ||
-      e.webkitMovementY   ||
-      0;
-  theta += movementX * lookSpeed * 0.005;
-  phi += movementY * lookSpeed * 0.005;
-}
-//Unpdates the camera's position + orientation
-function update_look_at() {
-  look_at = [Math.cos(theta)*Math.sin(phi), Math.cos(phi), Math.sin(theta)*Math.sin(phi)];
-}
-
-
-
-
-
-/*var objStr = document.getElementById('my_cube.obj').innerHTML;
-var mesh = new OBJ.Mesh(objStr);
-OBJ.initMeshBuffers(gl, mesh);*/
-
 function initVertexBuffers(gl) {
-  // Create a cube
-  //    v6----- v5
-  //   /|      /|
-  //  v1------v0|
-  //  | |     | |
-  //  | |v7---|-|v4
-  //  |/      |/
-  //  v2------v3
-
   // Coordinates（Cube which length of one side is 1 with the origin on the center of the bottom)
   var vertices = new Float32Array([
     0.5, 1.0, 0.5, -0.5, 1.0, 0.5, -0.5, 0.0, 0.5,  0.5, 0.0, 0.5, // v0-v1-v2-v3 front
@@ -362,7 +349,6 @@ function initVertexBuffers(gl) {
    -0.5, 0.0,-0.5,  0.5, 0.0,-0.5,  0.5, 0.0, 0.5, -0.5, 0.0, 0.5, // v7-v4-v3-v2 down
     0.5, 0.0,-0.5, -0.5, 0.0,-0.5, -0.5, 1.0,-0.5,  0.5, 1.0,-0.5  // v4-v7-v6-v5 back
   ]);
-
   // Normal
   var normals = new Float32Array([
     0.0, 0.0, 1.0,  0.0, 0.0, 1.0,  0.0, 0.0, 1.0,  0.0, 0.0, 1.0, // v0-v1-v2-v3 front
@@ -372,8 +358,6 @@ function initVertexBuffers(gl) {
     0.0,-1.0, 0.0,  0.0,-1.0, 0.0,  0.0,-1.0, 0.0,  0.0,-1.0, 0.0, // v7-v4-v3-v2 down
     0.0, 0.0,-1.0,  0.0, 0.0,-1.0,  0.0, 0.0,-1.0,  0.0, 0.0,-1.0  // v4-v7-v6-v5 back
   ]);
-
-
   // Indices of the vertices
   var indices = new Uint8Array([
      0, 1, 2,   0, 2, 3,    // front
@@ -383,15 +367,11 @@ function initVertexBuffers(gl) {
     16,17,18,  16,18,19,    // down
     20,21,22,  20,22,23     // back
   ]);
-
   // Write the vertex property to buffers (coordinates and normals)
   if (!initArrayBuffer(gl, 'a_Position', vertices, gl.FLOAT, 3)) return -1;
   if (!initArrayBuffer(gl, 'a_Normal', normals, gl.FLOAT, 3)) return -1;
-
-
   // Unbind the buffer object
   gl.bindBuffer(gl.ARRAY_BUFFER, null);
-
   // Write the indices to the buffer object
   var indexBuffer = gl.createBuffer();
   if (!indexBuffer) {
@@ -400,7 +380,6 @@ function initVertexBuffers(gl) {
   }
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
-
   return indices.length;
 }
 
@@ -424,7 +403,6 @@ function initArrayBuffer(gl, attribute, data, type, num) {
   gl.vertexAttribPointer(a_attribute, num, type, false, 0, 0);
   // Enable the assignment of the buffer object to the attribute variable
   gl.enableVertexAttribArray(a_attribute);
-
   return true;
 }
 
@@ -448,7 +426,6 @@ function draw(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
     drawChairs(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
 
   g_modelMatrix = popMatrix();
-
 
   document.getElementById("speed").innerHTML = "<b>Speed (Camera Sensitivity): </b>" + lookSpeed;
   document.getElementById("camera_coords").innerHTML = "<b>Camera Coordinates: </b>" + camera_pos[0].toFixed(2) + ", " + camera_pos[1].toFixed(2) + ", " + camera_pos[2].toFixed(2);
@@ -604,18 +581,22 @@ function drawWalls(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
   //Door wall front panel
   g_modelMatrix.setTranslate(-164, 0, -149.5);
   drawBox(gl, n, 72.0, 26, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+  
   //Not door wall
-  g_modelMatrix.setTranslate(-200, 0, -0.5);
-  for (var i = 0; i < 11; i++) {
+  g_modelMatrix.setTranslate(-10, 0, -0.5);
+  for (var i = 0; i < 9; i++) {
     drawBox(gl, n, 20.0, 50, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+    if (i==8){
+      break;
+    }
     for (var j = 0; j < 2; j++) {
-      g_modelMatrix.setTranslate(-20 -(22.5 * i), 0 + (j*42.5), -0.5);
+      g_modelMatrix.setTranslate(-22.5 -(25* i), 0 + (j*35), -0.5);
       drawBox(gl, n, 5, 15, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
     };
-    g_modelMatrix.setTranslate(-10 -(22.5 * i), 0, -0.5);
+    g_modelMatrix.setTranslate(-10 -(25 * i), 0, -0.5);
   };
-  g_modelMatrix.setTranslate(-199.5, 0, -75);
   //Front wall
+  g_modelMatrix.setTranslate(-199.5, 0, -75);
   g_modelMatrix.rotate(90.0, 0.0, 1.0, 0.0);  // Rotate around the y-axis
   drawBox(gl, n, 148.0, 50, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
   //Back wall
@@ -629,16 +610,14 @@ function drawWalls(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
 
 function drawDoor(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix, doorAngle){
   gl.vertexAttrib3f(a_Color, brown[0], brown[1], brown[2]);
-
   g_modelMatrix.setTranslate(0, 0, 0);
-  g_modelMatrix.translate(-110 -Math.cos(doorAngle)*10, 0, -149.5 -Math.sin(doorAngle)*10);
-  g_modelMatrix.rotate(-doorAngle*360/(2*Math.PI), 0, 1, 0);
+  g_modelMatrix.translate(-128 +Math.cos(doorAngle)*8, 0, -149.5 -Math.sin(doorAngle)*8);
+  g_modelMatrix.rotate(doorAngle*360/(2*Math.PI), 0, 1, 0);
   drawBox(gl, n, 16.0, 26, 0.7, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
 }
 
 function drawStage(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix){
   gl.vertexAttrib3f(a_Color, 1, 1, 1);
-
   g_modelMatrix.setTranslate(-174.5, 0, -75);
   drawBox(gl, n, 49.0, 2, 148, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
 }
