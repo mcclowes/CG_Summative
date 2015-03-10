@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Lecture Room</title>
+    <link href='css/style.css' rel='stylesheet' />
+  </head>
+
+  <body onload="main()">
+    <canvas id="webgl" width="800" height="500">
+    Please use a browser that supports "canvas"
+    </canvas>
+    <p>
+      <pre>
+         &uarr;                           w 
+        &larr;&darr;&rarr; : Move camera          a s d : Change view
+        q: Drop camera height      e: Increase camera height
+        o: Open door               p: Close door
+
+        Toggle Lights: 1,2,3,4,5,6
+      </pre>
+    </p>
+    <p id = "speed">
+    </p>
+    <p>
+      <pre>
+        z: Decrease sensitivity    x: Increase sensitivity
+      </pre>
+    </p>
+    <p id = "camera_coords">
+    </p>
+
+    <script src="./lib/webgl-utils.js"></script>
+    <script src="./lib/webgl-debug.js"></script>
+    <script src="./lib/cuon-utils.js"></script>
+    <script src="./lib/cuon-matrix.js"></script>
+    <script src="wipv5.js"></script>
+  </body>
+</html>
