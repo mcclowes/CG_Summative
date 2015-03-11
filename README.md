@@ -5,7 +5,7 @@ We were tasked with creating a 3D representation of a lecture theatre using WebG
 
 A live demo of the site can be found [here](http://community.dur.ac.uk/maximilian.clayton-clowes/Lecture/).
 
-*Note* Chrome + OS X compatible. Not tested across all platforms/ devices.
+***Note:*** Chrome + OS X compatible. Not tested across all platforms/ devices.
 
 ## Contents
 <!-- MarkdownTOC -->
