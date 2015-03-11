@@ -9,9 +9,9 @@ Coursework Description
 + Include simple interaction mechanisms (e.g. using hotkeys), allowing a user to examine the 3D environment by changing the orientation or the position of the virtual camera and to induce changes to dynamic objects.
 
 # Assessment:
-The assignment will be assessed by the following items, and the level of achievement in each item will be marked against the university's marking criteria:
-https://www.dur.ac.uk/resources/university.calendar/volumeii/2014.2015/coreregsug.pdf
 + Modeling of static objects (the use of simple shapes, transformation operations and texture mapping) (20%)
+    * Successfully modelled static objects
+    * Used for loops with transformation to generate grids of objects, even chair leg level
 + Modeling of dynamic objects (the use of simple shapes, transformation operations, texture mapping, and interaction mechanisms) (35%)
 + Modeling of the virtual environment (the use of static and dynamic objects, transformation 
 operations, scene graph, virtual camera, light source(s), and interaction mechanisms) (20%)

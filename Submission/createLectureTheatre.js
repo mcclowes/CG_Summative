@@ -135,7 +135,7 @@ var FSHADER_SOURCE =
   '  {\n' +
   '    actualColor = v_Color;\n' +
   '  }\n' + 
-  '  vec3 diffuse = actualColor.rgb * (u_LightColor * nDotL + u_LightColor2 * nDotL2 + u_LightColor3 * nDotL3 + u_LightColor4 * nDotL4 + u_LightColor5 * nDotL5 + u_LightColor6 * nDotL6 + u_LightColor7 * nDotL7 + u_LightColor8 * nDotL8 + u_LightColor9 * nDotL9 + u_LightColor10 * nDotL10 + u_LightColor11 * nDotL11 + u_LightColor12 * nDotL12 + u_LightColor12 * nDotL12 + u_LightColor13 * nDotL13 + u_LightColor14 * nDotL14 + u_LightColor15 * nDotL15 + u_LightColor16 * nDotL16 + u_LightColor17 * nDotL17 + u_LightColor18 * nDotL18 + u_LightColor19 * nDotL19 + u_LightColor20 * nDotL20);\n' +
+  '  vec3 diffuse = actualColor.rgb * (u_LightColor * nDotL + u_LightColor2 * nDotL2 + u_LightColor3 * nDotL3 + u_LightColor4 * nDotL4 + u_LightColor5 * nDotL5 + u_LightColor6 * nDotL6 + u_LightColor7 * nDotL7 + u_LightColor8 * nDotL8 + u_LightColor9 * nDotL9 + u_LightColor10 * nDotL10 + u_LightColor11 * nDotL11 + u_LightColor12 * nDotL12 + u_LightColor13 * nDotL13 + u_LightColor14 * nDotL14 + u_LightColor15 * nDotL15 + u_LightColor16 * nDotL16 + u_LightColor17 * nDotL17 + u_LightColor18 * nDotL18 + u_LightColor19 * nDotL19 + u_LightColor20 * nDotL20);\n' +
   '  vec3 ambient = u_AmbientLight * actualColor.rgb;\n' +
   '  gl_FragColor = vec4(diffuse + ambient, actualColor.a);\n' +
   '}\n';
@@ -186,30 +186,31 @@ var lightOn18 = false;
 var lightOn19 = false;
 var lightOn20 = false;
 
-//
+//Colour modifiers
 redMod = 0.05;
 greenMod = 0;
 blueMod = -0.1;
-var light_color = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color2 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color3 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color4 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color5 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color6 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color7 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color8 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color9 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color10 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color11 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color12 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color13 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color14 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color15 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color16 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color17 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color18 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color19 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
-var light_color20 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+
+var light_color = [lightIntensity, lightIntensity, lightIntensity];
+var light_color2 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color3 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color4 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color5 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color6 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color7 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color8 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color9 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color10 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color11 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color12 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color13 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color14 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color15 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color16 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color17 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color18 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color19 = [lightIntensity, lightIntensity, lightIntensity];
+var light_color20 = [lightIntensity, lightIntensity, lightIntensity];
 
 
 var canvas = document.getElementById('webgl');
@@ -304,26 +305,26 @@ function main() {
   }
   //Update lights
   function update_lights(){
-    gl.uniform3f(u_LightColor, light_color[0]*lightOn, light_color[1]*lightOn, light_color[2]*lightOn);
-    gl.uniform3f(u_LightColor2, light_color2[0]*lightOn2, light_color2[1]*lightOn2, light_color2[2]*lightOn2);
-    gl.uniform3f(u_LightColor3, light_color3[0]*lightOn3, light_color3[1]*lightOn3, light_color3[2]*lightOn3);
-    gl.uniform3f(u_LightColor4, light_color4[0]*lightOn4, light_color4[1]*lightOn4, light_color4[2]*lightOn4);
-    gl.uniform3f(u_LightColor5, light_color5[0]*lightOn5, light_color5[1]*lightOn5, light_color5[2]*lightOn5);
-    gl.uniform3f(u_LightColor6, light_color6[0]*lightOn6, light_color6[1]*lightOn6, light_color6[2]*lightOn6);
-    gl.uniform3f(u_LightColor7, light_color7[0]*lightOn7, light_color7[1]*lightOn7, light_color7[2]*lightOn7);
-    gl.uniform3f(u_LightColor8, light_color8[0]*lightOn8, light_color8[1]*lightOn8, light_color8[2]*lightOn8);
-    gl.uniform3f(u_LightColor9, light_color9[0]*lightOn9, light_color9[1]*lightOn9, light_color9[2]*lightOn9);
-    gl.uniform3f(u_LightColor10, light_color10[0]*lightOn10, light_color10[1]*lightOn10, light_color10[2]*lightOn10);
-    gl.uniform3f(u_LightColor11, light_color11[0]*lightOn11, light_color11[1]*lightOn11, light_color11[2]*lightOn11);
-    gl.uniform3f(u_LightColor12, light_color12[0]*lightOn12, light_color12[1]*lightOn12, light_color12[2]*lightOn12);
-    gl.uniform3f(u_LightColor13, light_color13[0]*lightOn13, light_color13[1]*lightOn13, light_color13[2]*lightOn13);
-    gl.uniform3f(u_LightColor14, light_color14[0]*lightOn14, light_color14[1]*lightOn14, light_color14[2]*lightOn14);
-    gl.uniform3f(u_LightColor15, light_color15[0]*lightOn15, light_color15[1]*lightOn15, light_color15[2]*lightOn15);
-    gl.uniform3f(u_LightColor16, light_color16[0]*lightOn16, light_color16[1]*lightOn16, light_color16[2]*lightOn16);
-    gl.uniform3f(u_LightColor17, light_color17[0]*lightOn17, light_color17[1]*lightOn17, light_color17[2]*lightOn17);
-    gl.uniform3f(u_LightColor18, light_color18[0]*lightOn18, light_color18[1]*lightOn18, light_color18[2]*lightOn18);
-    gl.uniform3f(u_LightColor19, light_color19[0]*lightOn19, light_color19[1]*lightOn19, light_color19[2]*lightOn19);
-    gl.uniform3f(u_LightColor20, light_color20[0]*lightOn20, light_color20[1]*lightOn20, light_color20[2]*lightOn20);
+    gl.uniform3f(u_LightColor, (light_color[0]+redMod)*lightOn, (light_color[1]+greenMod)*lightOn,(light_color[2]+blueMod)*lightOn);
+    gl.uniform3f(u_LightColor2, (light_color2[0]+redMod)*lightOn2, (light_color2[1]+greenMod)*lightOn2, (light_color2[2]+blueMod)*lightOn2);
+    gl.uniform3f(u_LightColor3, (light_color3[0]+redMod)*lightOn3, (light_color3[1]+greenMod)*lightOn3, (light_color3[2]+blueMod)*lightOn3);
+    gl.uniform3f(u_LightColor4, (light_color4[0]+redMod)*lightOn4, (light_color4[1]+greenMod)*lightOn4, (light_color4[2]+blueMod)*lightOn4);
+    gl.uniform3f(u_LightColor5, (light_color5[0]+redMod)*lightOn5, (light_color5[1]+greenMod)*lightOn5, (light_color5[2]+blueMod)*lightOn5);
+    gl.uniform3f(u_LightColor6, (light_color6[0]+redMod)*lightOn6, (light_color6[1]+greenMod)*lightOn6, (light_color6[2]+blueMod)*lightOn6);
+    gl.uniform3f(u_LightColor7, (light_color7[0]+redMod)*lightOn7, (light_color7[1]+greenMod)*lightOn7, (light_color7[2]+blueMod)*lightOn7);
+    gl.uniform3f(u_LightColor8, (light_color8[0]+redMod)*lightOn8, (light_color8[1]+greenMod)*lightOn8, (light_color8[2]+blueMod)*lightOn8);
+    gl.uniform3f(u_LightColor9, (light_color9[0]+redMod)*lightOn9, (light_color9[1]+greenMod)*lightOn9, (light_color9[2]+blueMod)*lightOn9);
+    gl.uniform3f(u_LightColor10, (light_color10[0]+redMod)*lightOn10, (light_color10[1]+greenMod)*lightOn10, (light_color10[2]+blueMod)*lightOn10);
+    gl.uniform3f(u_LightColor11, (light_color11[0]+redMod)*lightOn11, (light_color11[1]+greenMod)*lightOn11, (light_color11[2]+blueMod)*lightOn11);
+    gl.uniform3f(u_LightColor12, (light_color12[0]+redMod)*lightOn12, (light_color12[1]+greenMod)*lightOn12, (light_color12[2]+blueMod)*lightOn12);
+    gl.uniform3f(u_LightColor13, (light_color13[0]+redMod)*lightOn13, (light_color13[1]+greenMod)*lightOn13, (light_color13[2]+blueMod)*lightOn13);
+    gl.uniform3f(u_LightColor14, (light_color14[0]+redMod)*lightOn14, (light_color14[1]+greenMod)*lightOn14, (light_color14[2]+blueMod)*lightOn14);
+    gl.uniform3f(u_LightColor15, (light_color15[0]+redMod)*lightOn15, (light_color15[1]+greenMod)*lightOn15, (light_color15[2]+blueMod)*lightOn15);
+    gl.uniform3f(u_LightColor16, (light_color16[0]+redMod)*lightOn16, (light_color16[1]+greenMod)*lightOn16, (light_color16[2]+blueMod)*lightOn16);
+    gl.uniform3f(u_LightColor17, (light_color17[0]+redMod)*lightOn17, (light_color17[1]+greenMod)*lightOn17, (light_color17[2]+blueMod)*lightOn17);
+    gl.uniform3f(u_LightColor18, (light_color18[0]+redMod)*lightOn18, (light_color18[1]+greenMod)*lightOn18, (light_color18[2]+blueMod)*lightOn18);
+    gl.uniform3f(u_LightColor19, (light_color19[0]+redMod)*lightOn19, (light_color19[1]+greenMod)*lightOn19, (light_color19[2]+blueMod)*lightOn19);
+    gl.uniform3f(u_LightColor20, (light_color20[0]+redMod)*lightOn20, (light_color20[1]+greenMod)*lightOn20, (light_color20[2]+blueMod)*lightOn20);
     gl.uniform3f(u_AmbientLight, ambLight, ambLight, ambLight);
     } 
     // Set the light direction (in the world coordinate)
@@ -353,6 +354,8 @@ function main() {
 
     n = makeCube(gl);
     texCube = texturedCube(gl, 'textures/durham.png');
+    texCube2 = texturedCube(gl, 'textures/board.png');
+    texCube3 = texturedCube(gl, 'textures/slender.jpeg');
     if (n < 0) {
       console.log('Failed to set the vertex information');
       return;
@@ -390,6 +393,7 @@ function main() {
     viewProjMatrix.lookAt(camera_pos[0], camera_pos[1], [camera_pos[2]], camera_pos[0] + look_at[0], camera_pos[1] + look_at[1], camera_pos[2] + look_at[2], 0.0, 1.0, 0);
     draw(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix); // Draw
     checkKeys(keys);
+    checkSelnder()
   }
 }
 
@@ -574,6 +578,12 @@ function checkKeys(keys) {
       audio.play();
       keys[53]=false;
     }
+    if (keys[77]){ // 'm'key -> Toggle Light 5+6
+      discoLights();
+    }
+    if (keys[75]){ // 'n'key -> Toggle Light 5+6
+      normalLights();
+    }
 }
 
 /*========================= Dynamic Objects ========================= */
@@ -617,6 +627,31 @@ function closeBlinds(){
   };
 }
 
+blindMove = setInterval(function () {closeBlinds()}, 50);
+
+setInterval(function () {flickerLight()}, 13000);
+setInterval(function () {flickerLight2()}, 19000);
+
+function flickerLight(){
+  audio2.play();
+  if (lightOn7 = true){
+    lightOn7 = !lightOn7;
+    setTimeout(function(){
+      lightOn7 = !lightOn7;
+    },200);
+  };
+}
+
+function flickerLight2(){
+  audio.play();
+  if (lightOn7 = true){
+    lightOn13 = !lightOn13;
+    setTimeout(function(){
+      lightOn13 = !lightOn13;
+    },200);
+  };
+}
+
 function introLights(){
   theta+=0.4
   setTimeout(function(){
@@ -654,12 +689,60 @@ function introLights(){
     lightOn20 = !lightOn20;
     audio2.play();
   },1000); 
-  setTimeout(function(){
+  /*setTimeout(function(){
     clearInterval(blindMove);
     blindMove = setInterval(function () {openBlinds()}, 50);
-  },6000);
+  },6000);*/
 }
 
+function discoLights(){
+  redMod =  Math.random() * (2 - 0) - 1;
+  greenMod =  Math.random() * (2 - 0) - 1;
+  blueMod =  Math.random() * (2 - 0) - 1;
+}
+
+function normalLights(){
+  console.log('norm');
+  redMod = 0.05;
+  greenMod = 0;
+  blueMod = -0.1;
+}
+
+function checkSelnder(){
+  if (camera_pos[0]>-168 && camera_pos[0]<-153){
+    if (camera_pos[1]>7.5 && camera_pos[1]<17.5){
+        if (camera_pos[2]>-43 && camera_pos[2]<-27){
+          console.log('did');
+          showSlender();
+          return
+      }
+    }
+  }
+  hideSlender();
+}
+
+function showSlender(){
+  document.getElementById('slenderNoteBG').style.position='absolute';
+  document.getElementById('slenderNoteBG').style.top='0';
+  document.getElementById('slenderNoteBG').style.left='0';
+  document.getElementById('slenderNoteBG').style.display='block';
+  document.getElementById('slenderNoteBG').style.paddingLeft='40%';
+  document.getElementById('slenderNoteBG').style.paddingTop='20%';
+  document.getElementById('slenderNoteBG').style.width='100%';
+  document.getElementById('slenderNoteBG').style.height='100%';
+  document.getElementById('slenderNoteBG').style.height='100%';
+  document.getElementById('slenderNoteBG').style.backgroundColor='rgba(1,1,1,0.5)';
+  document.getElementById('slenderNote').style.display='block';
+  document.getElementById('slenderNote').style.width='181px';
+  document.getElementById('slenderNote').style.height='257px';
+  document.getElementById('slenderNote').style.backgroundImage='url("textures/slender2.jpeg")';
+  document.getElementById('slenderNote').style.backgroundSize='100%';
+}
+
+function hideSlender(){
+  document.getElementById('slenderNoteBG').style.display='none';
+  document.getElementById('slenderNote').style.display='none';
+}
 /*========================= Buffers ========================= */
 function makeCube(gl) {
   // Coordinates（Cube which length of one side is 1 with the origin on the center of the bottom)
@@ -794,6 +877,7 @@ function draw(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
     drawTables(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
     drawChairs(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
     drawDurham(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+    drawNote(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
   g_modelMatrix = popMatrix();
 
   document.getElementById("speed").innerHTML = "<b>Speed (Camera Sensitivity): </b>" + lookSpeed;
@@ -802,7 +886,6 @@ function draw(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
 
 // TABLES
 function drawTables(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
-  gl.vertexAttrib3f(a_Color, brown[0], brown[1], brown[2]);
   pushMatrix(g_modelMatrix);
   for (var l = 0; l < 2; l++) {
     for (var k = 0; k < 6; k++) {
@@ -815,6 +898,7 @@ function drawTables(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatr
 
 function drawTable(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix, x, y, z) {
   g_modelMatrix.setTranslate(x, y, z);
+  gl.vertexAttrib3f(a_Color, black[0], black[1], black[2]);
   //Legs
   for (var i = 0; i < 2; i++) {
     for (var j = 0; j < 2; j++) {
@@ -824,6 +908,7 @@ function drawTable(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
       g_modelMatrix = popMatrix();
     };
   };
+  gl.vertexAttrib3f(a_Color, brown[0], brown[1], brown[2]);
   // Top
   g_modelMatrix.translate(0.0, 9.0, 0.0); //move to table centre
   pushMatrix(g_modelMatrix);
@@ -866,7 +951,6 @@ function drawPodium(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatr
 
 // CHAIRS
 function drawChairs(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
-  gl.vertexAttrib3f(a_Color, purple[0], purple[1], purple[2]);
   pushMatrix(g_modelMatrix);
   for (var h = 0; h < 2; h++) {
     for (var i = 0; i < 6; i++) {
@@ -880,6 +964,7 @@ function drawChairs(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatr
 
 function drawChair(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix, x, y, z) {
   g_modelMatrix.setTranslate(x, y, z);
+  gl.vertexAttrib3f(a_Color, black[0], black[1], black[2]);
   //Legs
   for (var l = 0; l < 2; l++) {
     for (var k = 0; k < 2; k++) {
@@ -891,7 +976,7 @@ function drawChair(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
   };
   // Move to the center of chair
   g_modelMatrix.translate(0.0, 5.0, 0.0);
-
+  gl.vertexAttrib3f(a_Color, purple[0], purple[1], purple[2]);
   // Draw Seat
   //gl.uniform1f(u_scale, 1.0);//change scale
   pushMatrix(g_modelMatrix);
@@ -916,9 +1001,7 @@ function drawFloor(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
   gl.vertexAttrib3f(a_Color, green[0], green[1], green[2]);
   g_modelMatrix.setTranslate(-100, -2, -75);
   drawBox(gl, n, 500.0, 1.0, 500.0, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-
   drawSteps(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-
 }
 
 function drawSteps(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
@@ -1000,7 +1083,6 @@ function drawStage(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
 
 function drawSliders(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix){
   gl.vertexAttrib3f(a_Color, goldBrown[0], goldBrown[1], goldBrown[2]);
-
   g_modelMatrix.setTranslate(-198, 10, -75);
   drawBox(gl, n, 2, 38, 0.5, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
   g_modelMatrix.translate(0, 0, -69.5)
@@ -1023,10 +1105,9 @@ function drawBoards(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatr
 function drawBoard(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix){
   pushMatrix(g_modelMatrix);
     gl.vertexAttrib3f(a_Color, greyGreen[0], greyGreen[1], greyGreen[2]);
-    drawBox(gl, n, 0.3, 16, 68, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+    drawBox(gl, texCube2, 0.3, 16, 68, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
   
     gl.vertexAttrib3f(a_Color, grey[0], grey[1], grey[2]);
-
     g_modelMatrix.translate(0, 0, 0);// Bottom frame
     drawBox(gl, n, 0.5, 0.5, 69, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
     g_modelMatrix.translate(0, 16, 0);// Top frame
@@ -1055,6 +1136,15 @@ function drawDurham(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatr
     gl.vertexAttrib3f(a_Color, 1, 1, 1);
     g_modelMatrix.setTranslate(-200,-20,200);
     drawBox(gl, texCube, 16000, 400, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+  g_modelMatrix = popMatrix();
+}
+
+function drawNote(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix){
+  pushMatrix(g_modelMatrix);
+    gl.vertexAttrib3f(a_Color, 1, 1, 1);
+    g_modelMatrix.setTranslate(-160,12.5,-35);
+    g_modelMatrix.rotate(90.0, 0.0, 0.5, 0.0);
+    drawBox(gl, texCube3, 2.1, 0.05, 2.97, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
   g_modelMatrix = popMatrix();
 }
 
