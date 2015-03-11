@@ -27,3 +27,7 @@ operations, scene graph, virtual camera, light source(s), and interaction mechan
 + Description of the attached three different screen shots of your implementation
 + Justification for the extra computer graphics features included in your implementation
 + A list of the public domain packages / source code that you have used in your coursework
+
+![Screen1](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot1.jpg)
+![Screen2](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot2.jpg)
+![Screen3](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot3.jpg)
