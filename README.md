@@ -18,6 +18,15 @@ Drawing of shapes utilising for loops to minimise code and increase efficiency
 + Modeling of dynamic objects (the use of simple shapes, transformation operations, texture mapping, and interaction mechanisms) (35%)
 + Modeling of the virtual environment (the use of static and dynamic objects, transformation 
 operations, scene graph, virtual camera, light source(s), and interaction mechanisms) (20%)
+
+Interaction:
+proximity
+keys - notably, concurrent buttons
+time
+camera movement
+
+
+
 + Implementation of vertex and fragment shaders (10%)
 + Robustness of the implementation (10%)
 + Extra computer graphics features included [e.g. implement techniques that you have learnt from the lectures but that are not part of the prescribed requirements](5%)
@@ -28,6 +37,12 @@ operations, scene graph, virtual camera, light source(s), and interaction mechan
 + Justification for the extra computer graphics features included in your implementation
 + A list of the public domain packages / source code that you have used in your coursework
 
+# Screenshots
 ![Screen1](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot1.jpg)
+Screenshot 1 shows the scene during it's brief introduction. The room begins in darkness (ambient light source intensity reduced to 0) and one by one the rows of lights turn on. The chalkboards are textured.
 ![Screen2](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot2.jpg)
+Screenshot 2 shows the dynamic movement of the blinds as they close (controlled by the user). As the blinds raise and lower the ambient lighting of the scene is raised and lowered accordingly. Outside of the window is a skybox. The lights can be toggled on/off, grouped by rows. 
 ![Screen3](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot3.jpg)
+
+# Limitations
+
