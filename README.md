@@ -25,6 +25,8 @@ keys - notably, concurrent buttons
 time
 camera movement
 
+Opening door/blinds includes animation sequences
+
 
 
 + Implementation of vertex and fragment shaders (10%)
@@ -39,10 +41,17 @@ camera movement
 
 # Screenshots
 ![Screen1](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot1.jpg)
-Screenshot 1 shows the scene during it's brief introduction. The room begins in darkness (ambient light source intensity reduced to 0) and one by one the rows of lights turn on. The chalkboards are textured.
+Screenshot 1 shows the scene during it's brief introduction. The room begins in darkness (ambient light source intensity reduced to 0) and one by one the rows of lights turn on. The chalkboards are textured. Along the right hand wall a door can just be made out, which can be opened.
 ![Screen2](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot2.jpg)
-Screenshot 2 shows the dynamic movement of the blinds as they close (controlled by the user). As the blinds raise and lower the ambient lighting of the scene is raised and lowered accordingly. Outside of the window is a skybox. The lights can be toggled on/off, grouped by rows. 
+Screenshot 2 shows the dynamic movement of the blinds as they close (controlled by the user). As the blinds raise and lower the ambient lighting of the scene is raised and lowered accordingly. Outside of the window is a skybox. The lights can be toggled on/off, grouped by rows; only rows 2 and 4 are currently active. On the desk is a note object (see screenshot 3).
 ![Screen3](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot3.jpg)
+Screenshot 3 shows the user in close proximty to the aforementioned note object. An overlay view appears containing the note's contents appears, disappearing once the user moves away. By pressing/holding 'm', the colour of the lighting in the room is randomly varied, here appearing red. 
 
 # Limitations
+The shaders do not including capablity for dealing with shadows so although the lighting appears somewhat convincing, it is not infact realistic.
 
+# Resources
++ [WebGL Textbook ](https://sites.google.com/site/webglbook/)
++ [WebGL Textbook examples](https://sites.google.com/site/webglbook/)
++ [FPS Tracking](http://in2gpu.com/2014/05/17/fps-webgl/)
++ [Pointer Lock API](https://developer.mozilla.org/en-US/docs/Web/API/Pointer_Lock_API)
