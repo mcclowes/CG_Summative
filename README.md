@@ -1,7 +1,12 @@
-# CG_Summative
-Software Methodologies CG Web GL summative assignment
+# CG WebGL Summative
+Software Methodologies CG WebGL summative assignment.
 
+We were tasked with creating a 3D representation of a lecture theatre using WebGL embedded in a web page.
 
+A live demo of the site can be found [here](http://community.dur.ac.uk/maximilian.clayton-clowes/Lecture/)
+
+## Report
+### Meeting Criteria
 
 + The 3D lecture room should comprise both static and dynamic objects. A static object means its attributes, such as position, orientation, colour, are kept unchanged while your program is running. In contrast, attributes of a dynamic object may change if necessary.
 + Construct a virtual camera and proper light source(s), allowing 3D objects and the virtual environment to be visualised properly.
@@ -24,8 +29,10 @@ proximity
 keys - notably, concurrent buttons
 time
 camera movement
-
+Sound
 Opening door/blinds includes animation sequences
+Lighting
+
 
 
 
@@ -33,13 +40,13 @@ Opening door/blinds includes animation sequences
 + Robustness of the implementation (10%)
 + Extra computer graphics features included [e.g. implement techniques that you have learnt from the lectures but that are not part of the prescribed requirements](5%)
 
-# Deliverables:
+### Deliverables:
 + A list of the limitations of your implementation
 + Description of the attached three different screen shots of your implementation
 + Justification for the extra computer graphics features included in your implementation
 + A list of the public domain packages / source code that you have used in your coursework
 
-# Screenshots
+### Screenshots
 ![Screen1](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot1.jpg)
 Screenshot 1 shows the scene during it's brief introduction. The room begins in darkness (ambient light source intensity reduced to 0) and one by one the rows of lights turn on. The chalkboards are textured. Along the right hand wall a door can just be made out, which can be opened.
 ![Screen2](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot2.jpg)
@@ -47,10 +54,10 @@ Screenshot 2 shows the dynamic movement of the blinds as they close (controlled 
 ![Screen3](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot3.jpg)
 Screenshot 3 shows the user in close proximty to the aforementioned note object. An overlay view appears containing the note's contents appears, disappearing once the user moves away. By pressing/holding 'm', the colour of the lighting in the room is randomly varied, here appearing red. 
 
-# Limitations
-The shaders do not including capablity for dealing with shadows so although the lighting appears somewhat convincing, it is not infact realistic.
+### Limitations
+The shaders do not including capablity for dealing with shadows so although the lighting appears somewhat convincing, it is not infact realistic. The current skybox is also poor and could be improved upon.
 
-# Resources
+### Resources
 + [WebGL Textbook ](https://sites.google.com/site/webglbook/)
 + [WebGL Textbook examples](https://sites.google.com/site/webglbook/)
 + [FPS Tracking](http://in2gpu.com/2014/05/17/fps-webgl/)
