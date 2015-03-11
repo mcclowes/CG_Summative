@@ -16,7 +16,7 @@ A live demo of the site can be found [here](http://community.dur.ac.uk/maximilia
     - [Interactions](#interactions)
     - [Shaders](#shaders)
     - [Robustness](#robustness)
-    - [Extra Features:](#extra-features)
+    - [Extra Features](#extra-features)
     - [Screenshots](#screenshots)
     - [Limitations](#limitations)
     - [Resources](#resources)
@@ -50,7 +50,7 @@ As the code was built in an object oriented manner, altering the shaders to incl
 ### Robustness
 The code includes some cross platform handling and user input is heavily controlled and checked using if statements. As a result the program is fairly robust. However, some browsers may not support it (particularly the mouse control), and mobile touch interactions are not handled.
 
-### Extra Features:
+### Extra Features
 + A clean interface styled in CSS
 + Screen overlays (for the note), through Javascript + CSS
 + Audio in Javascript - background track on loop; lighting sound effects;
