@@ -4,12 +4,19 @@ Software Methodologies CG WebGL summative assignment.
 We were tasked with creating a 3D representation of a lecture theatre using WebGL embedded in a web page.
 
 A live demo of the site can be found [here](http://community.dur.ac.uk/maximilian.clayton-clowes/Lecture/).
+
+*Note* Chrome + OS X compatible. Not tested across all platforms/ devices.
+
 ## Contents
 <!-- MarkdownTOC -->
 
 - [Report](#report)
-    - [Meeting Criteria](#meeting-criteria)
-    - [Deliverables:](#deliverables)
+    - [Objects](#objects)
+    - [Light Sources](#light-sources)
+    - [Interactions](#interactions)
+    - [Shaders](#shaders)
+    - [Robustness](#robustness)
+    - [Extra Features:](#extra-features)
     - [Screenshots](#screenshots)
     - [Limitations](#limitations)
     - [Resources](#resources)
@@ -17,44 +24,37 @@ A live demo of the site can be found [here](http://community.dur.ac.uk/maximilia
 <!-- /MarkdownTOC -->
 
 ## Report
-### Meeting Criteria
-
-+ The 3D lecture room should comprise both static and dynamic objects. A static object means its attributes, such as position, orientation, colour, are kept unchanged while your program is running. In contrast, attributes of a dynamic object may change if necessary.
-+ Construct a virtual camera and proper light source(s), allowing 3D objects and the virtual environment to be visualised properly.
-+ Include simple interaction mechanisms (e.g. using hotkeys), allowing a user to examine the 3D environment by changing the orientation or the position of the virtual camera and to induce changes to dynamic objects.
+### Objects
+All objects have been generated though the creation of cubes and Drawing of shapes utilising for loops to minimise code and increase efficiency
 
 My scene contains a variety of static objects, from the walls of the room itself to the skybox visable through the room's windows. Also included are a variety of dynamic objects:
 + Blinds - Open and close, adjusting ambient lighting accordingly. Animated; transform shape.
 + A door - Open and close. Animated; rotate shape and translate to offset rotation.
++ Lights - Toggle on off (grouped by rows); change colour; play sound effects;
 
-Transformation operations are present in both the generation of static objects
+Texture mapping is applied on specific locations (skybox, board, and note). I previously applied textures to all surfaces but found that the overall appearance was not enhanced by this overuse of textures, so for the sake of visual appeal stuck primarily to colour mapping instead. 
 
-Texture mapping is applyed at specific locations. I previously applied textures to all surfaces but found that the overall appearance was not enhanced by this overuse of textures.
+### Light Sources
+The scene includes 20 point lights and an ambient source. The 20 point lights are toggled in rows using keys 1-5. 2 of the point lights include flickering on irregular time delays. As point lights turn on they play sounds. Pressing 'm' changes the colour of the point lights randomly.
 
-Drawing of shapes utilising for loops to minimise code and increase efficiency
+### Interactions
+The user interacts with the scene through two methods - keyboard input and mouse input. Initially I handled user input through the onkeydown method, which created jerky movement; onkeydown is only called ~3 times a second. By mapping keyboard inputs to a dictionary holding boolean states for the relevant keys, input and movement is tied to the scene draw tick and therefore is far smoother. This input is used to control the dynamic objects and lighting previously mentioned, as well as control the camera.
 
-+ Modeling of dynamic objects (the use of simple shapes, transformation operations, texture mapping, and interaction mechanisms) (35%)
-+ Modeling of the virtual environment (the use of static and dynamic objects, transformation 
-operations, scene graph, virtual camera, light source(s), and interaction mechanisms) (20%)
+The camera represents the user, and is moved through WASD/mouse movement. The mouse controls use pointerLock to lock onto the user's mouse and adjust the camera's orientation (through tracking and accounting for x/y movement).
 
-Interaction:
-proximity
-keys - notably, concurrent buttons
-time
-camera movement
-Sound
-Opening door/blinds includes animation sequences
-Lighting
+Because the camera's position is tracked, interactions based on proximity have been possible. There is a note on the lecturer's podium which, if moved near, brings up a screen overlay showing the note's contents.
 
+### Shaders
+As the code was built in an object oriented manner, altering the shaders to include support for textures (as well as colours) was a simple case of including if statements checking for the object type and altering rendering accordingly.
 
+### Robustness
+The code includes some cross platform handling and user input is heavily controlled and checked using if statements. As a result the program is fairly robust. However, some browsers may not support it (particularly the mouse control), and mobile touch interactions are not handled.
 
-
-+ Implementation of vertex and fragment shaders (10%)
-+ Robustness of the implementation (10%)
-+ Extra computer graphics features included [e.g. implement techniques that you have learnt from the lectures but that are not part of the prescribed requirements](5%)
-
-### Deliverables:
-+ Justification for the extra computer graphics features included in your implementation
+### Extra Features:
++ A clean interface styled in CSS
++ Screen overlays (for the note), through Javascript + CSS
++ Audio in Javascript - background track on loop; lighting sound effects;
++ Some crossplatform support included, though not thoroughly tested
 
 ### Screenshots
 ![Screen1](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot1.jpg)
@@ -67,7 +67,7 @@ Screenshot 3 shows the user in close proximty to the aforementioned note object.
 ### Limitations
 + The shaders do not including capablity for dealing with shadows so although the lighting appears somewhat convincing, it is not infact realistic. 
 + The current skybox is also poor and could be improved upon.
-+ Including 3D objects (e.g. .OBJ files) would be great, but having little experience with 3D modelling/ texturing packages and not wanting to take 3D assets from online, this seemed impractical.
++ Including 3D objects (e.g. .OBJ files) would be great, but having little experience with 3D modelling/ texturing packages and not wanting to take 3D assets from online, this seemed impractical. This would have made the code more efficient and increased rendering speeds, though the scene is not complex enough to suffer notable lag issues.
 
 ### Resources
 + [WebGL Textbook ](https://sites.google.com/site/webglbook/)
