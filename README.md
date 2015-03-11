@@ -3,7 +3,18 @@ Software Methodologies CG WebGL summative assignment.
 
 We were tasked with creating a 3D representation of a lecture theatre using WebGL embedded in a web page.
 
-A live demo of the site can be found [here](http://community.dur.ac.uk/maximilian.clayton-clowes/Lecture/)
+A live demo of the site can be found [here](http://community.dur.ac.uk/maximilian.clayton-clowes/Lecture/).
+## Contents
+<!-- MarkdownTOC -->
+
+- [Report](#report)
+    - [Meeting Criteria](#meeting-criteria)
+    - [Deliverables:](#deliverables)
+    - [Screenshots](#screenshots)
+    - [Limitations](#limitations)
+    - [Resources](#resources)
+
+<!-- /MarkdownTOC -->
 
 ## Report
 ### Meeting Criteria
@@ -12,7 +23,9 @@ A live demo of the site can be found [here](http://community.dur.ac.uk/maximilia
 + Construct a virtual camera and proper light source(s), allowing 3D objects and the virtual environment to be visualised properly.
 + Include simple interaction mechanisms (e.g. using hotkeys), allowing a user to examine the 3D environment by changing the orientation or the position of the virtual camera and to induce changes to dynamic objects.
 
-My scene contains a variety of both static and dynamic objects. 
+My scene contains a variety of static objects, from the walls of the room itself to the skybox visable through the room's windows. Also included are a variety of dynamic objects:
++ Blinds - Open and close, adjusting ambient lighting accordingly. Animated; transform shape.
++ A door - Open and close. Animated; rotate shape and translate to offset rotation.
 
 Transformation operations are present in both the generation of static objects
 
@@ -41,10 +54,7 @@ Lighting
 + Extra computer graphics features included [e.g. implement techniques that you have learnt from the lectures but that are not part of the prescribed requirements](5%)
 
 ### Deliverables:
-+ A list of the limitations of your implementation
-+ Description of the attached three different screen shots of your implementation
 + Justification for the extra computer graphics features included in your implementation
-+ A list of the public domain packages / source code that you have used in your coursework
 
 ### Screenshots
 ![Screen1](https://raw.githubusercontent.com/mcclowes/CG_Summative/master/Screenshot1.jpg)
@@ -55,7 +65,9 @@ Screenshot 2 shows the dynamic movement of the blinds as they close (controlled 
 Screenshot 3 shows the user in close proximty to the aforementioned note object. An overlay view appears containing the note's contents appears, disappearing once the user moves away. By pressing/holding 'm', the colour of the lighting in the room is randomly varied, here appearing red. 
 
 ### Limitations
-The shaders do not including capablity for dealing with shadows so although the lighting appears somewhat convincing, it is not infact realistic. The current skybox is also poor and could be improved upon.
++ The shaders do not including capablity for dealing with shadows so although the lighting appears somewhat convincing, it is not infact realistic. 
++ The current skybox is also poor and could be improved upon.
++ Including 3D objects (e.g. .OBJ files) would be great, but having little experience with 3D modelling/ texturing packages and not wanting to take 3D assets from online, this seemed impractical.
 
 ### Resources
 + [WebGL Textbook ](https://sites.google.com/site/webglbook/)
