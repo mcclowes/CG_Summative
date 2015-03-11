@@ -4,18 +4,29 @@ var VSHADER_SOURCE =
   'attribute vec4 a_Position;\n' +
   'attribute vec4 a_Color;\n' +
   'attribute vec4 a_Normal;\n' +
+  'attribute vec2 a_TexCoord;\n' +
   'uniform mat4 u_MvpMatrix;\n' +
   'uniform mat4 u_ModelMatrix;\n' +    // Model matrix
   'uniform mat4 u_NormalMatrix;\n' +   // Transformation matrix of the normal
+  'uniform bool u_isTexture;\n' +
+  'uniform float u_scale;\n' +
   'varying vec4 v_Color;\n' +
   'varying vec3 v_Normal;\n' +
   'varying vec3 v_Position;\n' +
+  'varying vec2 v_TexCoord;\n' +
   'void main() {\n' +
   '  gl_Position = u_MvpMatrix * a_Position;\n' +
      // Calculate the vertex position in the world coordinate
   '  v_Position = vec3(u_ModelMatrix * a_Position);\n' +
   '  v_Normal = normalize(vec3(u_NormalMatrix * a_Normal));\n' +
-  '  v_Color = a_Color;\n' + 
+  '  if(u_isTexture)\n' + 
+  '  {\n' +
+  '    v_TexCoord = a_TexCoord*u_scale;\n' +
+  '  }\n' +
+  '  else\n' +
+  '  {\n' +
+  '    v_Color = a_Color;\n' +
+  '  }\n' +
   '}\n';
 // Fragment shader program
 var FSHADER_SOURCE =
@@ -27,17 +38,48 @@ var FSHADER_SOURCE =
   'uniform vec3 u_LightColor3;\n' +   
   'uniform vec3 u_LightColor4;\n' +   
   'uniform vec3 u_LightColor5;\n' +
-  'uniform vec3 u_LightColor6;\n' +      
+  'uniform vec3 u_LightColor6;\n' +   
+  'uniform vec3 u_LightColor7;\n' +
+  'uniform vec3 u_LightColor8;\n' +
+  'uniform vec3 u_LightColor9;\n' +
+  'uniform vec3 u_LightColor10;\n' +
+  'uniform vec3 u_LightColor11;\n' +
+  'uniform vec3 u_LightColor12;\n' + 
+  'uniform vec3 u_LightColor13;\n' + 
+  'uniform vec3 u_LightColor14;\n' + 
+  'uniform vec3 u_LightColor15;\n' + 
+  'uniform vec3 u_LightColor16;\n' + 
+  'uniform vec3 u_LightColor17;\n' + 
+  'uniform vec3 u_LightColor18;\n' + 
+  'uniform vec3 u_LightColor19;\n' + 
+  'uniform vec3 u_LightColor20;\n' +    
   'uniform vec3 u_LightPosition;\n' +  // Position of the light source
   'uniform vec3 u_LightPosition2;\n' +
   'uniform vec3 u_LightPosition3;\n' +
   'uniform vec3 u_LightPosition4;\n' +
   'uniform vec3 u_LightPosition5;\n' +
   'uniform vec3 u_LightPosition6;\n' +
+  'uniform vec3 u_LightPosition7;\n' +
+  'uniform vec3 u_LightPosition8;\n' +
+  'uniform vec3 u_LightPosition9;\n' +
+  'uniform vec3 u_LightPosition10;\n' +
+  'uniform vec3 u_LightPosition11;\n' +
+  'uniform vec3 u_LightPosition12;\n' +
+  'uniform vec3 u_LightPosition13;\n' +
+  'uniform vec3 u_LightPosition14;\n' +
+  'uniform vec3 u_LightPosition15;\n' +
+  'uniform vec3 u_LightPosition16;\n' +
+  'uniform vec3 u_LightPosition17;\n' +
+  'uniform vec3 u_LightPosition18;\n' +
+  'uniform vec3 u_LightPosition19;\n' +
+  'uniform vec3 u_LightPosition20;\n' +
   'uniform vec3 u_AmbientLight;\n' +   // Ambient light color
+  'uniform bool u_isTexture;\n' +
+  'uniform sampler2D u_Sampler;\n' +
   'varying vec3 v_Normal;\n' +
   'varying vec3 v_Position;\n' +
   'varying vec4 v_Color;\n' +
+  'varying vec2 v_TexCoord;\n' +
   'void main() {\n' +
      // Normalize the normal because it is interpolated and not 1.0 in length any more
   '  vec3 normal = normalize(v_Normal);\n' +
@@ -48,6 +90,20 @@ var FSHADER_SOURCE =
   '  vec3 lightDirection4 = normalize(u_LightPosition4 - v_Position);\n' +
   '  vec3 lightDirection5 = normalize(u_LightPosition5 - v_Position);\n' +
   '  vec3 lightDirection6 = normalize(u_LightPosition6 - v_Position);\n' +
+  '  vec3 lightDirection7 = normalize(u_LightPosition7 - v_Position);\n' +
+  '  vec3 lightDirection8 = normalize(u_LightPosition8 - v_Position);\n' +
+  '  vec3 lightDirection9 = normalize(u_LightPosition9 - v_Position);\n' +
+  '  vec3 lightDirection10 = normalize(u_LightPosition10 - v_Position);\n' +
+  '  vec3 lightDirection11 = normalize(u_LightPosition11 - v_Position);\n' +
+  '  vec3 lightDirection12 = normalize(u_LightPosition12 - v_Position);\n' +
+  '  vec3 lightDirection13 = normalize(u_LightPosition13 - v_Position);\n' +
+  '  vec3 lightDirection14 = normalize(u_LightPosition14 - v_Position);\n' +
+  '  vec3 lightDirection15 = normalize(u_LightPosition15 - v_Position);\n' +
+  '  vec3 lightDirection16 = normalize(u_LightPosition16 - v_Position);\n' +
+  '  vec3 lightDirection17 = normalize(u_LightPosition17 - v_Position);\n' +
+  '  vec3 lightDirection18 = normalize(u_LightPosition18 - v_Position);\n' +
+  '  vec3 lightDirection19 = normalize(u_LightPosition19 - v_Position);\n' +
+  '  vec3 lightDirection20 = normalize(u_LightPosition20 - v_Position);\n' +
      // The dot product of the light direction and the orientation of a surface (the normal)
   '  float nDotL = 200.0*max(dot(lightDirection, normal), 0.0) / dot(u_LightPosition - v_Position, u_LightPosition - v_Position);\n' +
   '  float nDotL2 = 200.0*max(dot(lightDirection2, normal), 0.0) / dot(u_LightPosition2 - v_Position, u_LightPosition2 - v_Position);\n' +
@@ -55,10 +111,33 @@ var FSHADER_SOURCE =
   '  float nDotL4 = 200.0*max(dot(lightDirection4, normal), 0.0) / dot(u_LightPosition4 - v_Position, u_LightPosition4 - v_Position);\n' +
   '  float nDotL5 = 200.0*max(dot(lightDirection5, normal), 0.0) / dot(u_LightPosition5 - v_Position, u_LightPosition5 - v_Position);\n' +
   '  float nDotL6 = 200.0*max(dot(lightDirection6, normal), 0.0) / dot(u_LightPosition6 - v_Position, u_LightPosition6 - v_Position);\n' +
+  '  float nDotL7 = 200.0*max(dot(lightDirection7, normal), 0.0) / dot(u_LightPosition7 - v_Position, u_LightPosition7 - v_Position);\n' +
+  '  float nDotL8 = 200.0*max(dot(lightDirection8, normal), 0.0) / dot(u_LightPosition8 - v_Position, u_LightPosition8 - v_Position);\n' +
+  '  float nDotL9 = 200.0*max(dot(lightDirection9, normal), 0.0) / dot(u_LightPosition9 - v_Position, u_LightPosition9 - v_Position);\n' +
+  '  float nDotL10 = 200.0*max(dot(lightDirection10, normal), 0.0) / dot(u_LightPosition10 - v_Position, u_LightPosition10 - v_Position);\n' +
+  '  float nDotL11 = 200.0*max(dot(lightDirection11, normal), 0.0) / dot(u_LightPosition11 - v_Position, u_LightPosition11 - v_Position);\n' +
+  '  float nDotL12 = 200.0*max(dot(lightDirection12, normal), 0.0) / dot(u_LightPosition12 - v_Position, u_LightPosition12 - v_Position);\n' +
+  '  float nDotL13 = 200.0*max(dot(lightDirection13, normal), 0.0) / dot(u_LightPosition13 - v_Position, u_LightPosition13 - v_Position);\n' +
+  '  float nDotL14 = 200.0*max(dot(lightDirection14, normal), 0.0) / dot(u_LightPosition14 - v_Position, u_LightPosition14 - v_Position);\n' +
+  '  float nDotL15 = 200.0*max(dot(lightDirection15, normal), 0.0) / dot(u_LightPosition15 - v_Position, u_LightPosition15 - v_Position);\n' +
+  '  float nDotL16 = 200.0*max(dot(lightDirection16, normal), 0.0) / dot(u_LightPosition16 - v_Position, u_LightPosition16 - v_Position);\n' +
+  '  float nDotL17 = 200.0*max(dot(lightDirection17, normal), 0.0) / dot(u_LightPosition17 - v_Position, u_LightPosition17 - v_Position);\n' +
+  '  float nDotL18 = 200.0*max(dot(lightDirection18, normal), 0.0) / dot(u_LightPosition18 - v_Position, u_LightPosition18 - v_Position);\n' +
+  '  float nDotL19 = 200.0*max(dot(lightDirection19, normal), 0.0) / dot(u_LightPosition19 - v_Position, u_LightPosition19 - v_Position);\n' +
+  '  float nDotL20 = 200.0*max(dot(lightDirection20, normal), 0.0) / dot(u_LightPosition20 - v_Position, u_LightPosition20 - v_Position);\n' +
      // Calculate the final color from diffuse reflection and ambient reflection
-  '  vec3 diffuse = v_Color.rgb * (u_LightColor * nDotL + u_LightColor2 * nDotL2 + u_LightColor3 * nDotL3 + u_LightColor4 * nDotL4 + u_LightColor5 * nDotL5 + u_LightColor6 * nDotL6);\n' +
-  '  vec3 ambient = u_AmbientLight * v_Color.rgb;\n' +
-  '  gl_FragColor = vec4(diffuse + ambient, v_Color.a);\n' +
+  '  vec4 actualColor;\n' +  
+  '  if(u_isTexture)\n' + 
+  '  {\n' +
+  '    actualColor = texture2D(u_Sampler, v_TexCoord);\n' +
+  '  }\n' +
+  '  else\n' +
+  '  {\n' +
+  '    actualColor = v_Color;\n' +
+  '  }\n' + 
+  '  vec3 diffuse = actualColor.rgb * (u_LightColor * nDotL + u_LightColor2 * nDotL2 + u_LightColor3 * nDotL3 + u_LightColor4 * nDotL4 + u_LightColor5 * nDotL5 + u_LightColor6 * nDotL6 + u_LightColor7 * nDotL7 + u_LightColor8 * nDotL8 + u_LightColor9 * nDotL9 + u_LightColor10 * nDotL10 + u_LightColor11 * nDotL11 + u_LightColor12 * nDotL12 + u_LightColor12 * nDotL12 + u_LightColor13 * nDotL13 + u_LightColor14 * nDotL14 + u_LightColor15 * nDotL15 + u_LightColor16 * nDotL16 + u_LightColor17 * nDotL17 + u_LightColor18 * nDotL18 + u_LightColor19 * nDotL19 + u_LightColor20 * nDotL20);\n' +
+  '  vec3 ambient = u_AmbientLight * actualColor.rgb;\n' +
+  '  gl_FragColor = vec4(diffuse + ambient, actualColor.a);\n' +
   '}\n';
 
 /*========================= VARS ========================= */
@@ -68,6 +147,9 @@ var phi = Math.PI/2;
 
 //Door position
 var doorAngle = 0;
+var ambLight = 0;
+var lightIntensity = 0.5;
+
 //Colour variable definitions
 var red = [1, 0, 0];
 var green = [0, 1, 0];
@@ -83,18 +165,52 @@ var greyGreen = [0.23, 0.6, 0.4];
 var sky = [0.4, 0.9, 0.95];
 
 //Lights
-var lightOn = true;
-var lightOn2 = true;
-var lightOn3 = true;
-var lightOn4 = true;
-var lightOn5 = true;
-var lightOn6 = true;
-var light_color = [0.7, 0.7, 0.7];
-var light_color2 = [0.7, 0.7, 0.7];
-var light_color3 = [0.7, 0.7, 0.7];
-var light_color4 = [0.7, 0.7, 0.7];
-var light_color5 = [0.7, 0.7, 0.7];
-var light_color6 = [0.7, 0.7, 0.7];
+var lightOn = false;
+var lightOn2 = false;
+var lightOn3 = false;
+var lightOn4 = false;
+var lightOn5 = false;
+var lightOn6 = false;
+var lightOn7 = false;
+var lightOn8 = false;
+var lightOn9 = false;
+var lightOn10 = false;
+var lightOn11 = false;
+var lightOn12 = false;
+var lightOn13 = false;
+var lightOn14 = false;
+var lightOn15 = false;
+var lightOn16 = false;
+var lightOn17 = false;
+var lightOn18 = false;
+var lightOn19 = false;
+var lightOn20 = false;
+
+//
+redMod = 0.05;
+greenMod = 0;
+blueMod = -0.1;
+var light_color = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color2 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color3 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color4 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color5 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color6 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color7 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color8 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color9 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color10 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color11 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color12 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color13 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color14 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color15 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color16 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color17 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color18 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color19 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+var light_color20 = [lightIntensity+redMod, lightIntensity+greenMod, lightIntensity+blueMod];
+
 
 var canvas = document.getElementById('webgl');
 canvas.width=window.innerWidth;
@@ -113,6 +229,10 @@ function main() {
     return;
   }
 
+  var bgNoise = new Audio('audio/faintBuzz.mp3');
+  bgNoise.loop = true;
+  bgNoise.play();
+
   // Set the clear canvas color and enable the depth test
   gl.clearColor(sky[0], sky[1], sky[2], 0.7);
   gl.enable(gl.DEPTH_TEST);
@@ -121,21 +241,63 @@ function main() {
   var u_ModelMatrix = gl.getUniformLocation(gl.program, 'u_ModelMatrix');
   var u_MvpMatrix = gl.getUniformLocation(gl.program, 'u_MvpMatrix');
   var u_NormalMatrix = gl.getUniformLocation(gl.program, 'u_NormalMatrix');
+  //Light Colors
   var u_LightColor = gl.getUniformLocation(gl.program, 'u_LightColor');
   var u_LightColor2 = gl.getUniformLocation(gl.program, 'u_LightColor2');
   var u_LightColor3 = gl.getUniformLocation(gl.program, 'u_LightColor3');
   var u_LightColor4 = gl.getUniformLocation(gl.program, 'u_LightColor4');
   var u_LightColor5 = gl.getUniformLocation(gl.program, 'u_LightColor5');
   var u_LightColor6 = gl.getUniformLocation(gl.program, 'u_LightColor6');
+  var u_LightColor7 = gl.getUniformLocation(gl.program, 'u_LightColor7');
+  var u_LightColor8 = gl.getUniformLocation(gl.program, 'u_LightColor8');
+  var u_LightColor9 = gl.getUniformLocation(gl.program, 'u_LightColor9');
+  var u_LightColor10 = gl.getUniformLocation(gl.program, 'u_LightColor10');
+  var u_LightColor11 = gl.getUniformLocation(gl.program, 'u_LightColor11');
+  var u_LightColor12 = gl.getUniformLocation(gl.program, 'u_LightColor12');
+  var u_LightColor13 = gl.getUniformLocation(gl.program, 'u_LightColor13');
+  var u_LightColor14 = gl.getUniformLocation(gl.program, 'u_LightColor14');
+  var u_LightColor15 = gl.getUniformLocation(gl.program, 'u_LightColor15');
+  var u_LightColor16 = gl.getUniformLocation(gl.program, 'u_LightColor16');
+  var u_LightColor17 = gl.getUniformLocation(gl.program, 'u_LightColor17');
+  var u_LightColor18 = gl.getUniformLocation(gl.program, 'u_LightColor18');
+  var u_LightColor19 = gl.getUniformLocation(gl.program, 'u_LightColor19');
+  var u_LightColor20 = gl.getUniformLocation(gl.program, 'u_LightColor20');
+
+  //Light Positions
   var u_LightPosition = gl.getUniformLocation(gl.program, 'u_LightPosition');
   var u_LightPosition2 = gl.getUniformLocation(gl.program, 'u_LightPosition2');
   var u_LightPosition3 = gl.getUniformLocation(gl.program, 'u_LightPosition3');
   var u_LightPosition4 = gl.getUniformLocation(gl.program, 'u_LightPosition4');
   var u_LightPosition5 = gl.getUniformLocation(gl.program, 'u_LightPosition5');
   var u_LightPosition6 = gl.getUniformLocation(gl.program, 'u_LightPosition6');
+  var u_LightPosition7 = gl.getUniformLocation(gl.program, 'u_LightPosition7');
+  var u_LightPosition8 = gl.getUniformLocation(gl.program, 'u_LightPosition8');
+  var u_LightPosition9 = gl.getUniformLocation(gl.program, 'u_LightPosition9');
+  var u_LightPosition10 = gl.getUniformLocation(gl.program, 'u_LightPosition10');
+  var u_LightPosition11 = gl.getUniformLocation(gl.program, 'u_LightPosition11');
+  var u_LightPosition12 = gl.getUniformLocation(gl.program, 'u_LightPosition12');
+  var u_LightPosition13 = gl.getUniformLocation(gl.program, 'u_LightPosition13');
+  var u_LightPosition14 = gl.getUniformLocation(gl.program, 'u_LightPosition14');
+  var u_LightPosition15 = gl.getUniformLocation(gl.program, 'u_LightPosition15');
+  var u_LightPosition16 = gl.getUniformLocation(gl.program, 'u_LightPosition16');
+  var u_LightPosition17 = gl.getUniformLocation(gl.program, 'u_LightPosition17');
+  var u_LightPosition18 = gl.getUniformLocation(gl.program, 'u_LightPosition18');
+  var u_LightPosition19 = gl.getUniformLocation(gl.program, 'u_LightPosition19');
+  var u_LightPosition20 = gl.getUniformLocation(gl.program, 'u_LightPosition20');
   var u_AmbientLight = gl.getUniformLocation(gl.program, 'u_AmbientLight');
+
+  u_isTexture = gl.getUniformLocation(gl.program, 'u_isTexture');
   //Check
   a_Color = gl.getAttribLocation(gl.program, 'a_Color')
+  a_Position = gl.getAttribLocation(gl.program, 'a_Position');
+  a_Normal = gl.getAttribLocation(gl.program, 'a_Normal');
+  a_TexCoord = gl.getAttribLocation(gl.program, 'a_TexCoord');
+  u_Sampler = gl.getUniformLocation(gl.program, 'u_Sampler');
+  u_scale = gl.getUniformLocation(gl.program, 'u_scale')
+
+  gl.uniform1i(u_isTexture, false);
+  gl.uniform1f(u_scale, 1.0);
+
   if (!u_ModelMatrix || !u_MvpMatrix || !u_NormalMatrix || !u_LightColor || !u_LightPosition || !u_LightPosition2 || !u_LightPosition3 || !u_LightPosition4 || !u_LightPosition5 || !u_LightPosition6 || !u_AmbientLight) { 
     console.log('Failed to get the storage location');
     return;
@@ -148,35 +310,73 @@ function main() {
     gl.uniform3f(u_LightColor4, light_color4[0]*lightOn4, light_color4[1]*lightOn4, light_color4[2]*lightOn4);
     gl.uniform3f(u_LightColor5, light_color5[0]*lightOn5, light_color5[1]*lightOn5, light_color5[2]*lightOn5);
     gl.uniform3f(u_LightColor6, light_color6[0]*lightOn6, light_color6[1]*lightOn6, light_color6[2]*lightOn6);
+    gl.uniform3f(u_LightColor7, light_color7[0]*lightOn7, light_color7[1]*lightOn7, light_color7[2]*lightOn7);
+    gl.uniform3f(u_LightColor8, light_color8[0]*lightOn8, light_color8[1]*lightOn8, light_color8[2]*lightOn8);
+    gl.uniform3f(u_LightColor9, light_color9[0]*lightOn9, light_color9[1]*lightOn9, light_color9[2]*lightOn9);
+    gl.uniform3f(u_LightColor10, light_color10[0]*lightOn10, light_color10[1]*lightOn10, light_color10[2]*lightOn10);
+    gl.uniform3f(u_LightColor11, light_color11[0]*lightOn11, light_color11[1]*lightOn11, light_color11[2]*lightOn11);
+    gl.uniform3f(u_LightColor12, light_color12[0]*lightOn12, light_color12[1]*lightOn12, light_color12[2]*lightOn12);
+    gl.uniform3f(u_LightColor13, light_color13[0]*lightOn13, light_color13[1]*lightOn13, light_color13[2]*lightOn13);
+    gl.uniform3f(u_LightColor14, light_color14[0]*lightOn14, light_color14[1]*lightOn14, light_color14[2]*lightOn14);
+    gl.uniform3f(u_LightColor15, light_color15[0]*lightOn15, light_color15[1]*lightOn15, light_color15[2]*lightOn15);
+    gl.uniform3f(u_LightColor16, light_color16[0]*lightOn16, light_color16[1]*lightOn16, light_color16[2]*lightOn16);
+    gl.uniform3f(u_LightColor17, light_color17[0]*lightOn17, light_color17[1]*lightOn17, light_color17[2]*lightOn17);
+    gl.uniform3f(u_LightColor18, light_color18[0]*lightOn18, light_color18[1]*lightOn18, light_color18[2]*lightOn18);
+    gl.uniform3f(u_LightColor19, light_color19[0]*lightOn19, light_color19[1]*lightOn19, light_color19[2]*lightOn19);
+    gl.uniform3f(u_LightColor20, light_color20[0]*lightOn20, light_color20[1]*lightOn20, light_color20[2]*lightOn20);
+    gl.uniform3f(u_AmbientLight, ambLight, ambLight, ambLight);
     } 
     // Set the light direction (in the world coordinate)
-    gl.uniform3f(u_LightPosition, -30, 45, -37.5);
-    gl.uniform3f(u_LightPosition2, -30, 45.0, -112.5);
-    gl.uniform3f(u_LightPosition3, -100, 45.0, -37.5);
-    gl.uniform3f(u_LightPosition4, -100.5, 45.0, -112.5);
-    gl.uniform3f(u_LightPosition5, -170, 45.0, -37.5);
-    gl.uniform3f(u_LightPosition6, -170, 45.0, -112.5);
+    gl.uniform3f(u_LightPosition, -20, 45, -15);
+    gl.uniform3f(u_LightPosition2, -20, 45, -55);
+    gl.uniform3f(u_LightPosition3, -20, 45, -95);
+    gl.uniform3f(u_LightPosition4, -20, 45, -135);
+    gl.uniform3f(u_LightPosition5, -60, 45, -15);
+    gl.uniform3f(u_LightPosition6, -60, 45, -55);
+    gl.uniform3f(u_LightPosition7, -60, 45, -95);
+    gl.uniform3f(u_LightPosition8, -60, 45, -135);
+    gl.uniform3f(u_LightPosition9, -100, 45, -15);
+    gl.uniform3f(u_LightPosition10, -100, 45, -55);
+    gl.uniform3f(u_LightPosition11, -100, 45, -95);
+    gl.uniform3f(u_LightPosition12, -100, 45, -135);
+    gl.uniform3f(u_LightPosition13, -140, 45, -15);
+    gl.uniform3f(u_LightPosition14, -140, 45, -55);
+    gl.uniform3f(u_LightPosition15, -140, 45, -95);
+    gl.uniform3f(u_LightPosition16, -140, 45, -135);
+    gl.uniform3f(u_LightPosition17, -180, 45, -15);
+    gl.uniform3f(u_LightPosition18, -180, 45, -55);
+    gl.uniform3f(u_LightPosition19, -180, 45, -95);
+    gl.uniform3f(u_LightPosition20, -180, 45, -135);
     // Set the ambient light
-    gl.uniform3f(u_AmbientLight, 0.2, 0.2, 0.2);
+    console.log('Amb Light ' + ambLight);
+    gl.uniform3f(u_AmbientLight, ambLight, ambLight, ambLight-0.2);
 
-    n = initVertexBuffers(gl);
-      if (n < 0) {
-        console.log('Failed to set the vertex information');
-        return;
+    n = makeCube(gl);
+    texCube = texturedCube(gl, 'textures/durham.png');
+    if (n < 0) {
+      console.log('Failed to set the vertex information');
+      return;
   }
 
   // Calculate the view projection matrix  
   var viewProjMatrix = new Matrix4();
 
-  // event listener for key presses
+ /* // event listener for key presses
   document.addEventListener('keydown', function(event) { 
     keydown(event, gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix, canvas.width, canvas.height)
-  }, false);
-/*
-  document.addEventListener('keydown', function(event) {
-    setInterval(keydown(event, gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix, canvas.width, canvas.height), 1000);
   }, false);*/
+
+  var keys = {};
   
+  document.onkeydown = function(ev){
+    keys[ev.keyCode] = true;
+  }
+
+  document.onkeyup = function(ev){
+    keys[ev.keyCode] = false;
+  }
+
+  introLights();
   //Update scene and draw every tick
   tick();
   function tick() {
@@ -187,8 +387,9 @@ function main() {
     update_look_at(); // Initially set camera
     update_lights();
     viewProjMatrix.setPerspective(50.0, canvas.width / canvas.height, 1.0, 700.0);
-    viewProjMatrix.lookAt(camera_pos[0], camera_pos[1], [camera_pos[2]], camera_pos[0] + look_at[0], camera_pos[1] + look_at[1], camera_pos[2] + look_at[2], 0.0, 1.0, 0.0);
+    viewProjMatrix.lookAt(camera_pos[0], camera_pos[1], [camera_pos[2]], camera_pos[0] + look_at[0], camera_pos[1] + look_at[1], camera_pos[2] + look_at[2], 0.0, 1.0, 0);
     draw(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix); // Draw
+    checkKeys(keys);
   }
 }
 
@@ -218,10 +419,9 @@ window.requestAnimFrame = (function(){
 })();
 
 /*========================= Camera Handling ========================= */
-
 var lookSpeed = 1;
 //Camera functionality
-var camera_pos = [-160.0, 20.0, -75.0];
+var camera_pos = [-10.0, 30.0, -10.0];
 //var camera_pos = [100,30,-90];
 var look_at = [0.0, 0.0, 0.0];
 
@@ -275,72 +475,195 @@ function update_look_at() {
 /*========================= Key Handling ========================= */
 
 //Movement vars
-var moveSpeed = 3;
+var moveSpeed = 1;
+var doorMove;
+var blindMove;
 
-function keydown(ev, gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix, canvas_width, canvas_height) {
-  switch (ev.keyCode) {
-    case 87: // 'w'key -> Move forward at camera direction
+//audio
+var audio = new Audio('audio/lightOn.mp3');
+var audio2 = new Audio('audio/lightOn2.mp3');
+var audio3 = new Audio('audio/lightOn.mp3');
+
+function checkKeys(keys) {
+    if (keys[87]){ // 'w'key -> Move forward at camera direction
       camera_pos[0] += look_at[0]*moveSpeed;
       camera_pos[1] += look_at[1]*moveSpeed;
       camera_pos[2] += look_at[2]*moveSpeed;
-      break; 
-    case 83: // 's'key -> Move backward at camera direction
+    }
+    if (keys[83]){ // 's'key -> Move backward at camera direction
       camera_pos[0] -= look_at[0]*moveSpeed;
       camera_pos[1] -= look_at[1]*moveSpeed;
       camera_pos[2] -= look_at[2]*moveSpeed;
-      break;
-    case 68: // 'd'key -> Move right relative to camera direction
+   }
+    if (keys[68]){ // 'd'key -> Move right relative to camera direction
       camera_pos[0] -= look_at[2]*moveSpeed;
       camera_pos[2] += look_at[0]*moveSpeed;
-      break;
-    case 65: // 'a'key -> Move left relative to camera direction
+   }
+    if (keys[65]){ // 'a'key -> Move left relative to camera direction
       camera_pos[0] += look_at[2]*moveSpeed;
       camera_pos[2] -= look_at[0]*moveSpeed;
-      break;
-    case 81: // 'q'key -> Drop camera height
+   }
+    if (keys[81]){ // 'q'key -> Drop camera height
       camera_pos[1] -= moveSpeed; 
-      break;
-    case 69: // 'e'key -> Increase camera height
+   }
+    if (keys[69]){ // 'e'key -> Increase camera height
       camera_pos[1] += moveSpeed;
-      break;
-    case 90: // 'z'key -> Decrease camera sensitivity
+   }
+    if (keys[90]){ // 'z'key -> Decrease camera sensitivity
       if(lookSpeed > 1){ lookSpeed -= 1; };
-      break;
-    case 88: // 'x'key -> Increase camera sensitivity
-      break;
-    case 79: // 'o'key -> Open door
-      if(doorAngle < 3*Math.PI/4 + 0.1){ 
-        doorAngle -= 0.1; 
-      }
-      else{
-        doorAngle = 3*Math.PI/4;
-      };
-      break;
-    case 80: // 'p'key -> Close door
-      if(doorAngle < 0.1){ 
-        doorAngle += 0.1; 
-      }else{
-        doorAngle = 0
-      };
-      break;
-    case 49: // '1'key -> Toggle Light 1+2
+   }
+    if (keys[88]){ // 'x'key -> Increase camera sensitivity
+   }
+    if (keys[79]){ // 'o'key -> Open door
+      clearInterval(doorMove);
+      doorMove = setInterval(function () {openDoor()}, 50);
+      keys[79]=false;
+   }
+    if (keys[80]){ // 'p'key -> Close door
+      clearInterval(doorMove);
+      doorMove = setInterval(function () {closeDoor()}, 50);
+      keys[80]=false;
+   }
+    if (keys[78]){ // 'n'key -> Open blind
+      clearInterval(blindMove);
+      blindMove = setInterval(function () {openBlinds()}, 50);
+      keys[78]=false;
+    }
+    if (keys[66]){ // 'b'key -> Close blind
+      clearInterval(blindMove);
+      blindMove = setInterval(function () {closeBlinds()}, 50);
+      keys[66]=false;
+    }
+    if (keys[49]){ // '1'key -> Toggle Light 1+2
       lightOn = !lightOn;
       lightOn2 = !lightOn2;
-      break;
-    case 50: // '2'key -> Toggle Light 3+4
       lightOn3 = !lightOn3;
       lightOn4 = !lightOn4;
-      break;
-    case 51: // '3'key -> Toggle Light 5+6
+      audio.play();
+      keys[49]=false;
+    }
+    if (keys[50]){ // '2'key -> Toggle Light 3+4
       lightOn5 = !lightOn5;
       lightOn6 = !lightOn6;
-      break;
-    default: return; // Skip drawing at no effective action
-  }
+      lightOn7 = !lightOn7;
+      lightOn8 = !lightOn8;
+      audio.play();
+      keys[50]=false;
+     }
+    if (keys[51]){ // '3'key -> Toggle Light 5+6
+      lightOn9 = !lightOn9;
+      lightOn10 = !lightOn10;
+      lightOn11 = !lightOn11;
+      lightOn12 = !lightOn12;
+      audio2.play();
+      keys[51]=false;
+    }
+    if (keys[52]){ // '4'key -> Toggle Light 5+6
+        lightOn13 = !lightOn13;
+        lightOn14 = !lightOn14;
+        lightOn15 = !lightOn15;
+        lightOn16 = !lightOn16;
+        audio2.play();
+        keys[52]=false;
+    }
+    if (keys[53]){ // '5'key -> Toggle Light 5+6
+      lightOn17 = !lightOn17;
+      lightOn18 = !lightOn18;
+      lightOn19 = !lightOn19;
+      lightOn20 = !lightOn20;
+      audio.play();
+      keys[53]=false;
+    }
 }
 
-function initVertexBuffers(gl) {
+/*========================= Dynamic Objects ========================= */
+
+var blindSize = 20;
+//Open/Close Doors
+function openDoor(){
+  doorAngle +=0.05
+  if(doorAngle >= 3*Math.PI/4 + 0.1){ 
+    clearInterval(doorMove);
+  }
+}
+function closeDoor(){
+  doorAngle -=0.05
+  if(doorAngle <= 0.1){
+    doorAngle = 0
+    clearInterval(doorMove);
+  };
+}
+//Open/Close blinds
+function openBlinds(){
+  blindSize -=0.1
+  if(blindSize < 0.1){
+    blindSize = 0
+    clearInterval(blindMove);
+  };
+  ambLight +=0.003
+  if (ambLight >= 0.4){
+    ambLight = 0.4;
+  };
+}
+function closeBlinds(){
+  blindSize +=0.1
+  if(blindSize > 20){
+    blindSize = 20
+    clearInterval(blindMove);
+  };
+  ambLight -=0.003
+  if (ambLight <= 0){
+    ambLight = 0;
+  };
+}
+
+function introLights(){
+  theta+=0.4
+  setTimeout(function(){
+    lightOn = !lightOn;
+    lightOn2 = !lightOn2;
+    lightOn3 = !lightOn3;
+    lightOn4 = !lightOn4; 
+    audio.play(); 
+  },5000); 
+  setTimeout(function(){
+    lightOn5 = !lightOn5;
+    lightOn6 = !lightOn6;
+    lightOn7 = !lightOn7;
+    lightOn8 = !lightOn8;
+    audio2.play();
+  },4000); 
+  setTimeout(function(){
+    lightOn9 = !lightOn9;
+    lightOn10 = !lightOn10;
+    lightOn11 = !lightOn11;
+    lightOn12 = !lightOn12;
+    audio3.play();
+  },3000); 
+  setTimeout(function(){
+    lightOn13 = !lightOn13;
+    lightOn14 = !lightOn14;
+    lightOn15 = !lightOn15;
+    lightOn16 = !lightOn16;
+    audio.play();
+  },2000); 
+  setTimeout(function(){
+    lightOn17 = !lightOn17;
+    lightOn18 = !lightOn18;
+    lightOn19 = !lightOn19;
+    lightOn20 = !lightOn20;
+    audio2.play();
+  },1000); 
+  setTimeout(function(){
+    clearInterval(blindMove);
+    blindMove = setInterval(function () {openBlinds()}, 50);
+  },6000);
+}
+
+/*========================= Buffers ========================= */
+function makeCube(gl) {
   // Coordinates（Cube which length of one side is 1 with the origin on the center of the bottom)
+  var c = new Object();
   var vertices = new Float32Array([
     0.5, 1.0, 0.5, -0.5, 1.0, 0.5, -0.5, 0.0, 0.5,  0.5, 0.0, 0.5, // v0-v1-v2-v3 front
     0.5, 1.0, 0.5,  0.5, 0.0, 0.5,  0.5, 0.0,-0.5,  0.5, 1.0,-0.5, // v0-v3-v4-v5 right
@@ -367,20 +690,65 @@ function initVertexBuffers(gl) {
     16,17,18,  16,18,19,    // down
     20,21,22,  20,22,23     // back
   ]);
-  // Write the vertex property to buffers (coordinates and normals)
-  if (!initArrayBuffer(gl, 'a_Position', vertices, gl.FLOAT, 3)) return -1;
-  if (!initArrayBuffer(gl, 'a_Normal', normals, gl.FLOAT, 3)) return -1;
-  // Unbind the buffer object
-  gl.bindBuffer(gl.ARRAY_BUFFER, null);
-  // Write the indices to the buffer object
-  var indexBuffer = gl.createBuffer();
-  if (!indexBuffer) {
-    console.log('Failed to create the buffer object');
-    return -1;
-  }
-  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
-  return indices.length;
+  c.vertexBuffer = initArrayBufferForLaterUse(gl, vertices, 3, gl.FLOAT);
+  c.normalBuffer = initArrayBufferForLaterUse(gl, normals, 3, gl.FLOAT);
+  c.indexBuffer = initElementArrayBufferForLaterUse(gl, indices, gl.UNSIGNED_BYTE);
+  c.numIndices = indices.length;
+  c.isTextured = false;
+
+  if (!c.vertexBuffer || !c.indexBuffer || !c.normalBuffer) return null; 
+  return c;
+}
+
+function texturedCube(gl, imagePath) {
+  var o = new Object();
+  // Coordinatesï¼ˆCube which length of one side is 1 with the origin on the center of the bottom)
+  var vertices = new Float32Array([
+    0.5, 1.0, 0.5, -0.5, 1.0, 0.5, -0.5, 0.0, 0.5,  0.5, 0.0, 0.5, // v0-v1-v2-v3 front
+    0.5, 1.0, 0.5,  0.5, 0.0, 0.5,  0.5, 0.0,-0.5,  0.5, 1.0,-0.5, // v0-v3-v4-v5 right
+    0.5, 1.0, 0.5,  0.5, 1.0,-0.5, -0.5, 1.0,-0.5, -0.5, 1.0, 0.5, // v0-v5-v6-v1 up
+   -0.5, 1.0, 0.5, -0.5, 1.0,-0.5, -0.5, 0.0,-0.5, -0.5, 0.0, 0.5, // v1-v6-v7-v2 left
+   -0.5, 0.0,-0.5,  0.5, 0.0,-0.5,  0.5, 0.0, 0.5, -0.5, 0.0, 0.5, // v7-v4-v3-v2 down
+    0.5, 0.0,-0.5, -0.5, 0.0,-0.5, -0.5, 1.0,-0.5,  0.5, 1.0,-0.5  // v4-v7-v6-v5 back
+  ]);
+  // Normal
+  var normals = new Float32Array([
+    0.0, 0.0, 1.0,  0.0, 0.0, 1.0,  0.0, 0.0, 1.0,  0.0, 0.0, 1.0, // v0-v1-v2-v3 front
+    1.0, 0.0, 0.0,  1.0, 0.0, 0.0,  1.0, 0.0, 0.0,  1.0, 0.0, 0.0, // v0-v3-v4-v5 right
+    0.0, 1.0, 0.0,  0.0, 1.0, 0.0,  0.0, 1.0, 0.0,  0.0, 1.0, 0.0, // v0-v5-v6-v1 up
+   -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, // v1-v6-v7-v2 left
+    0.0,-1.0, 0.0,  0.0,-1.0, 0.0,  0.0,-1.0, 0.0,  0.0,-1.0, 0.0, // v7-v4-v3-v2 down
+    0.0, 0.0,-1.0,  0.0, 0.0,-1.0,  0.0, 0.0,-1.0,  0.0, 0.0,-1.0  // v4-v7-v6-v5 back
+  ]);
+  // Texture coordinates
+  var texCoords = new Float32Array([
+      1.0, 1.0,   0.0, 1.0,   0.0, 0.0,   1.0, 0.0,    // v0-v1-v2-v3 front
+      0.0, 1.0,   0.0, 0.0,   1.0, 0.0,   1.0, 1.0,    // v0-v3-v4-v5 right
+      1.0, 0.0,   1.0, 1.0,   0.0, 1.0,   0.0, 0.0,    // v0-v5-v6-v1 up
+      1.0, 1.0,   0.0, 1.0,   0.0, 0.0,   1.0, 0.0,    // v1-v6-v7-v2 left
+      0.0, 0.0,   1.0, 0.0,   1.0, 1.0,   0.0, 1.0,    // v7-v4-v3-v2 down
+      0.0, 0.0,   1.0, 0.0,   1.0, 1.0,   0.0, 1.0     // v4-v7-v6-v5 back
+  ]);
+  // Indices of the vertices
+  var indices = new Uint8Array([
+     0, 1, 2,   0, 2, 3,    // front
+     4, 5, 6,   4, 6, 7,    // right
+     8, 9,10,   8,10,11,    // up
+    12,13,14,  12,14,15,    // left
+    16,17,18,  16,18,19,    // down
+    20,21,22,  20,22,23     // back
+  ]);
+
+  o.vertexBuffer = initArrayBufferForLaterUse(gl, vertices, 3, gl.FLOAT);
+  o.normalBuffer = initArrayBufferForLaterUse(gl, normals, 3, gl.FLOAT);
+  o.texCoordBuffer = initArrayBufferForLaterUse(gl, texCoords, 2, gl.FLOAT);
+  o.indexBuffer = initElementArrayBufferForLaterUse(gl, indices, gl.UNSIGNED_BYTE);
+  o.texture = initTextures(gl, imagePath)
+  o.numIndices = indices.length;
+  o.isTextured = true;
+
+  if (!o.vertexBuffer || !o.texCoordBuffer || !o.indexBuffer || !o.normalBuffer) return null; 
+  return o;
 }
 
 function initArrayBuffer(gl, attribute, data, type, num) {
@@ -412,11 +780,12 @@ var g_mvpMatrix = new Matrix4();
 
 /*========================= Textures ========================= */
 
-/*========================= Shapes ========================= */
+/*========================= DrawShapes ========================= */
 function draw(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
   pushMatrix(g_modelMatrix);
     drawFloor(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
     drawWalls(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+    drawBlinds(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
     drawStage(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
     drawDoor(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix, doorAngle);
     drawSliders(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
@@ -424,7 +793,7 @@ function draw(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
     drawLights(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
     drawTables(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
     drawChairs(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-
+    drawDurham(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
   g_modelMatrix = popMatrix();
 
   document.getElementById("speed").innerHTML = "<b>Speed (Camera Sensitivity): </b>" + lookSpeed;
@@ -524,9 +893,11 @@ function drawChair(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
   g_modelMatrix.translate(0.0, 5.0, 0.0);
 
   // Draw Seat
+  //gl.uniform1f(u_scale, 1.0);//change scale
   pushMatrix(g_modelMatrix);
-    drawBox(gl, n, 6.0, 0.5, 6.0, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-    g_modelMatrix = popMatrix();
+  drawBox(gl, n, 6.0, 0.5, 6.0, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+  g_modelMatrix = popMatrix();
+  //gl.uniform1f(u_scale, 1.0);//change back
 
   // Move back of chair
   g_modelMatrix.translate(2.5, 0.5, 0.0);
@@ -540,12 +911,9 @@ function drawChair(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
 
 function drawFloor(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix){
   gl.vertexAttrib3f(a_Color, grey[0], grey[1], grey[2]);
-
   g_modelMatrix.setTranslate(-100, -1, -75);
   drawBox(gl, n, 200.0, 1.0, 150.0, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-
   gl.vertexAttrib3f(a_Color, green[0], green[1], green[2]);
-
   g_modelMatrix.setTranslate(-100, -2, -75);
   drawBox(gl, n, 500.0, 1.0, 500.0, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
 
@@ -598,15 +966,23 @@ function drawWalls(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
   //Front wall
   g_modelMatrix.setTranslate(-199.5, 0, -75);
   g_modelMatrix.rotate(90.0, 0.0, 1.0, 0.0);  // Rotate around the y-axis
-  drawBox(gl, n, 148.0, 50, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+  drawBox(gl, n, 149.0, 50, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
   //Back wall
   g_modelMatrix.setTranslate(0,0,-75);
   g_modelMatrix.rotate(90.0, 0.0, 1.0, 0.0);  // Rotate around the y-axis
-  drawBox(gl, n, 148.0, 50, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+  drawBox(gl, n, 149.0, 50, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
   //roof
   g_modelMatrix.setTranslate(-100, 50, -75);
   drawBox(gl, n, 200.0, 1, 150, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
 }
+
+function drawBlinds(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
+  gl.vertexAttrib3f(a_Color, grey[0], grey[1], grey[2]);
+  for (var i = 0; i < 8; i++) {
+  g_modelMatrix.setTranslate(-22.5 -(25* i), 35-(blindSize), -0.5);
+  drawBox(gl, n, 5, blindSize, 0.3, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+  };
+};
 
 function drawDoor(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix, doorAngle){
   gl.vertexAttrib3f(a_Color, brown[0], brown[1], brown[2]);
@@ -665,19 +1041,20 @@ function drawBoard(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatri
 function drawLights(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix){
   pushMatrix(g_modelMatrix);
     gl.vertexAttrib3f(a_Color, 1, 1, 1);
+    for (var i = 0; i < 5; i++) {
+      for (var j = 0; j < 4; j++) {
+        g_modelMatrix.setTranslate(-20-(40*i), 49.5, -15-(40*j));
+        drawBox(gl, n, 2.6, 0.4, 13, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
+      };
+    };
+  g_modelMatrix = popMatrix();
+}
 
-    g_modelMatrix.setTranslate(-30, 49.5, -37.5);
-    drawBox(gl, n, 12, 0.7, 12, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-    g_modelMatrix.translate(-70, 0, 0);
-    drawBox(gl, n, 12, 0.7, 12, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-    g_modelMatrix.translate(-70, 0, 0);
-    drawBox(gl, n, 12, 0.7, 12, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-    g_modelMatrix.translate(0, 0, -75);
-    drawBox(gl, n, 12, 0.7, 12, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-    g_modelMatrix.translate(70, 0, 0);
-    drawBox(gl, n, 12, 0.7, 12, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
-    g_modelMatrix.translate(70, 0, 0);
-    drawBox(gl, n, 12, 0.7, 12, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);   
+function drawDurham(gl, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix){
+  pushMatrix(g_modelMatrix);
+    gl.vertexAttrib3f(a_Color, 1, 1, 1);
+    g_modelMatrix.setTranslate(-200,-20,200);
+    drawBox(gl, texCube, 16000, 400, 1, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix);
   g_modelMatrix = popMatrix();
 }
 
@@ -697,6 +1074,9 @@ var g_normalMatrix = new Matrix4();
 // Draw rectangular solid
 function drawBox(gl, n, width, height, depth, viewProjMatrix, u_MvpMatrix, u_NormalMatrix, u_ModelMatrix) {
   pushMatrix(g_modelMatrix);   // Save the model matrix
+    initAttributeVariable(gl, a_Position, n.vertexBuffer);    // Vertex coordinates
+    initAttributeVariable(gl, a_Normal, n.normalBuffer);  // Texture coordinates
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, n.indexBuffer);
     // Scale a cube and draw
     g_modelMatrix.scale(width, height, depth);
     // Pass the model matrix to u_ModelMatrix
@@ -709,7 +1089,95 @@ function drawBox(gl, n, width, height, depth, viewProjMatrix, u_MvpMatrix, u_Nor
     g_normalMatrix.setInverseOf(g_modelMatrix);
     g_normalMatrix.transpose();
     gl.uniformMatrix4fv(u_NormalMatrix, false, g_normalMatrix.elements);
-    // Draw
-    gl.drawElements(gl.TRIANGLES, n, gl.UNSIGNED_BYTE, 0);
+
+    if (n.isTextured != false){
+      gl.uniform1i(u_isTexture, true);
+      initAttributeVariable(gl, a_TexCoord, n.texCoordBuffer);
+      gl.activeTexture(gl.TEXTURE0);
+      gl.bindTexture(gl.TEXTURE_2D, n.texture);
+      gl.drawElements(gl.TRIANGLES, n.numIndices, n.indexBuffer.type, 0);
+      gl.uniform1i(u_isTexture, false);
+    }
+    else{
+      gl.drawElements(gl.TRIANGLES, n.numIndices, n.indexBuffer.type, 0);
+    }
   g_modelMatrix = popMatrix();   // Retrieve the model matrix
+}
+
+function initArrayBufferForLaterUse(gl, data, num, type) {
+  // Create a buffer object
+  var buffer = gl.createBuffer();
+  if (!buffer) {
+    console.log('Failed to create the buffer object');
+    return null;
+  }
+  // Write date into the buffer object
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW);
+
+  // Store the necessary information to assign the object to the attribute variable later
+  buffer.num = num;
+  buffer.type = type;
+
+  return buffer;
+}
+
+function initElementArrayBufferForLaterUse(gl, data, type) {
+  // Create a buffer object
+  var buffer = gl.createBuffer();
+  if (!buffer) {
+    console.log('Failed to create the buffer object');
+    return null;
+  }
+  // Write date into the buffer object
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, data, gl.STATIC_DRAW);
+
+  buffer.type = type;
+
+  return buffer;
+}
+
+function initAttributeVariable(gl, a_attribute, buffer) {
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.vertexAttribPointer(a_attribute, buffer.num, buffer.type, false, 0, 0);
+  gl.enableVertexAttribArray(a_attribute);
+}
+
+function initTextures(gl, imagePath) {
+  var texture = gl.createTexture();   // Create a texture object
+  if (!texture) {
+    console.log('Failed to create the Texture object');
+    return null;
+  }
+  // if (!u_Sampler) {
+  //   console.log('Failed to get the storage location of u_Sampler');
+  //   return null;
+  // }
+  var image = new Image();  // Create image object
+  if (!image) {
+    console.log('Failed to create the Image object');
+    return null;
+  }
+  // Register the event handler to be called when image loading is completed
+  image.onload = function() {
+    // Write image data to texture object
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);  // Flip the image Y coordinate
+    //gl.activeTexture(gl.TEXTURE0)
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+    // Pass the texture unit 0 to u_Sampler
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.uniform1i(u_Sampler, 0);
+    gl.bindTexture(gl.TEXTURE_2D, null); // Unbind the texture object
+  };
+
+  // Tell the browser to load an Image  
+  image.src = imagePath;
+  return texture;
 }
