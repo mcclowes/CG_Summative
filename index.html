@@ -2,17 +2,21 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    
     <title>Lecture Room</title>
+    
     <link href='css/style.css' rel='stylesheet' />
   </head>
 
   <body onload="main()">
     <canvas id="webgl">
-    Please use a browser that supports "canvas"
+      Please use a browser that supports "canvas"
     </canvas>
+
     <div id="fps_counter">Null</div>
 
     <div id="controls">
+
     <h1>pvxf29's Lecture Theatre</h1>
       <p><b>Mouse:</b> Move camera view<br>
           <b>Directions:</b> WASD<br>
@@ -26,13 +30,15 @@
     </div>
 
     <div id="slenderNoteBG">
-        <div id="slenderNote">
-        </div>
+      <div id="slenderNote">
       </div>
+    </div>
+
     <script src="lib/webgl-utils.js"></script>
     <script src="lib/webgl-debug.js"></script>
     <script src="lib/cuon-utils.js"></script>
     <script src="lib/cuon-matrix.js"></script>
-    <script src="createLectureTheatre.js"></script>
+
+    <script src="js/createLectureTheatre.js"></script>
   </body>
 </html>

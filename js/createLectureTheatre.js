@@ -136,6 +136,7 @@ var FSHADER_SOURCE =
   '  gl_FragColor = vec4(diffuse + ambient, visableColor.a);\n' +
   '}\n';
 
+
 function main() {
   var gl = getWebGLContext(canvas,false); //Remove false to enable debug
   if (!gl) {
